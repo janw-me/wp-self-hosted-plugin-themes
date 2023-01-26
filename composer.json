@@ -1,0 +1,28 @@
+{
+  "name": "janw-me/wp-self-hosted-plugin-themes",
+  "description": "Github Action for deploying self hosted plugins and themes",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jan Willem Oostendorp",
+      "email": "webmaster@janw.me"
+    }
+  ],
+  "require": {
+    "symfony/console": "^6.2",
+    "symfony/http-client": "^6.2",
+    "php": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "JanwMe\\WpSelfHostedPluginThemes\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.1"
+    }
+  }
+}

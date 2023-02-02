@@ -48,7 +48,6 @@ class Command extends Symfony_Command {
 			$readme  = $files['readme.txt'];
 			$zipfile = $files['file.zip'];
 			$version = $this->getVersion( $readme );
-			var_dump( $version );
 		} catch ( \Exception $exception ) {
 			$output->writeln( "<error>{$exception->getMessage()}</error>" );
 

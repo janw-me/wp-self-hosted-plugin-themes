@@ -11,10 +11,8 @@ class Uploader {
 	protected string $url;
 	protected string $username;
 	protected string $password;
-	protected string $type;
 	protected string $readmeFile;
 	protected string $zipFile;
-	protected string $version;
 	protected string $slug;
 	protected int $parentPageId;
 	protected int $readmeFileId;
@@ -24,29 +22,17 @@ class Uploader {
 	 * @param string      $url        Base url to a WP rest API
 	 * @param string      $username   Username that can upload to the rest API
 	 * @param string      $password   Preferably an application password
-	 * @param string      $type       "plugin" or "theme"
 	 * @param string      $readmefile The full path to the readme.txt.
-	 * @param string      $zipfile    The full patht to the theme of plugin zip-file.
-	 * @param string      $version    The version number
-	 * @param string|null $slug       Slug of the plugin/theme defaults to the basename of the ZIP
+	 * @param string      $zipfile    The full path to the theme of plugin zip-file.
+	 * @param string $slug       Slug of the plugin/theme defaults to the basename of the ZIP
 	 */
-	public function __construct( string $url, string $username, string $password, string $type, string $readmefile, string $zipfile, string $version, string $slug = null ) {
+	public function __construct( string $url, string $username, string $password, string $readmefile, string $zipfile, string $slug ) {
 		$this->url        = ltrim( $url ) . '/'; // force trailing slash
 		$this->username   = $username;
 		$this->password   = $password;
-		$this->type       = $type;
 		$this->readmeFile = $readmefile;
 		$this->zipFile    = $zipfile;
-		// Default to the zip-filename for the slug.
-		if ( null === $slug ) {
-			$slug = str_replace( '.zip', '', basename( $zipfile ) );
-		}
 		$this->slug    = $slug;
-		$this->version = $version;
-	}
-
-	public function getVersion() {
-
 	}
 
 	public function run() {
@@ -114,7 +100,7 @@ class Uploader {
 		$body = [
 			'title'   => $this->slug,
 			'slug'    => $this->slug,
-			'content' => 'TODO', // Maybe insert the shortcode.
+			'content' => '[wp-self-hosted]', // Maybe insert the shortcode.
 		];
 
 		$response = HttpClient::create()->request(
@@ -152,9 +138,7 @@ class Uploader {
 	}
 
 	protected function uploadZip() {
-		$filename = str_replace( '.zip', '', basename( $this->zipFile ) );
-		$filename .= ".{$this->version}.zip";
-
+		$filename = basename( $this->zipFile );
 		$this->fileZipId = $this->uploadFile( $this->zipFile, $this->parentPageId, $filename );
 	}
 
@@ -171,7 +155,7 @@ class Uploader {
 	 * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
 	 * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
 	 */
-	protected function uploadFile( string $filePath, string $parentId, string $filename = null ) {
+	protected function uploadFile( string $filePath, string $parentId, string $filename = null ): int {
 		if ( null === $filename ) {
 			$filename = basename( $filePath );
 		}

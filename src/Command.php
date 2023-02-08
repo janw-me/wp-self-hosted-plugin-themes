@@ -21,6 +21,9 @@ class Command extends Symfony_Command {
 		$this->addArgument( 'password', InputArgument::REQUIRED,
 			'The password of the url.'
 		);
+		$this->addArgument( 'version', InputArgument::REQUIRED,
+			'The Version number.',
+		);
 		$this->addOption( 'slug', 's', InputOption::VALUE_REQUIRED,
 			'Plugin/them page slug on the target url, defaults to plugin/theme slug.'
 		);
@@ -46,6 +49,7 @@ class Command extends Symfony_Command {
 			$input->getArgument( 'target_url' ),
 			$input->getArgument( 'username' ),
 			$input->getArgument( 'password' ),
+			$input->getArgument( 'version' ),
 			$input->getOption( 'readme-file' ),
 			$input->getOption( 'zip-file' ),
 			$input->getOption( 'slug' )

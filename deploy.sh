@@ -82,4 +82,4 @@ zip -r -q ${ZIP_FILE} ./$( basename ${BUILD_DIR}) ${ZIP_EXCLUDES}
 set +o noglob # the `*` at the end of directories kept expanding.
 echo "Created zip file in ${ZIP_FILE}"
 
-$SELF_PATH/deploy.php "$WEBSITE_URL" "$WEBSITE_USER" "$WEBSITE_PASS" -s "${SLUG}" -z "${ZIP_FILE}" -r "${README_FILE}"
+$SELF_PATH/deploy.php "$WEBSITE_URL" "$WEBSITE_USER" "$WEBSITE_PASS" "${VERSION}" -s "${SLUG}" -z "${ZIP_FILE}" -r "${README_FILE}"
